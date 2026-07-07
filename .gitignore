@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+env/
+.venv/
+.envs/
+
+# Environment variables
+.env
+backend/.env
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Upload artifacts
+uploads/*
+backend/uploads/*
+!uploads/.gitkeep
+!backend/uploads/.gitkeep
+
+# IDE / editor
+.vscode/
+.idea/
+
+# Frontend / package managers
+node_modules/
+dist/
+build/
+coverage/
+.DS_Store
+Thumbs.db

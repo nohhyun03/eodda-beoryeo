@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>어따버려</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+      :root {
+        color-scheme: light;
+      }
+
+      body {
+        font-family: 'Noto Sans KR', sans-serif;
+      }
+
+      .glass-card {
+        backdrop-filter: blur(18px);
+        background: rgba(255, 255, 255, 0.78);
+      }
+
+      .bg-orb {
+        position: fixed;
+        border-radius: 9999px;
+        filter: blur(28px);
+        opacity: 0.55;
+        pointer-events: none;
+      }
+
+      @keyframes floatUp {
+        0%,
+        100% {
+          transform: translateY(0px) scale(1);
+        }
+        50% {
+          transform: translateY(-10px) scale(1.03);
+        }
+      }
+
+      @keyframes toastIn {
+        from {
+          opacity: 0;
+          transform: translateY(16px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .animate-floatUp {
+        animation: floatUp 3.5s ease-in-out infinite;
+      }
+
+      .animate-toastIn {
+        animation: toastIn 180ms ease-out;
+      }
+
+      .panel-scroll {
+        scrollbar-gutter: stable;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(148, 163, 184, 0.55) transparent;
+        padding-right: 0.5rem;
+      }
+
+      .panel-scroll::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      .panel-scroll::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .panel-scroll::-webkit-scrollbar-thumb {
+        background: rgba(148, 163, 184, 0.5);
+        border-radius: 9999px;
+        border: 2px solid rgba(255, 255, 255, 0.45);
+      }
+
+      .panel-scroll::-webkit-scrollbar-thumb:hover {
+        background: rgba(100, 116, 139, 0.7);
+      }
+
+      .history-mastery-card {
+        min-height: clamp(5.75rem, 8vh, 7.5rem);
+        max-height: clamp(7.5rem, 12vh, 8.75rem);
+        transition: max-height 280ms ease, min-height 280ms ease, transform 280ms ease, box-shadow 280ms ease;
+      }
+
+      .history-mastery-details {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-4px);
+        transition: max-height 280ms ease, opacity 220ms ease, transform 220ms ease, margin-top 220ms ease, padding 220ms ease;
+      }
+
+      #history-mastery-level {
+        overflow: hidden;
+        line-height: 1.05;
+        transition: max-height 220ms ease, opacity 220ms ease, margin-top 220ms ease, transform 220ms ease;
+      }
+
+      .history-mastery-card:hover {
+        max-height: min(420px, 60vh);
+      }
+
+      .history-mastery-card:hover .history-mastery-details {
+        max-height: min(320px, 44vh);
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .screen-history-records-hover .history-mastery-card {
+        min-height: clamp(3.75rem, 6vh, 4.25rem);
+        max-height: clamp(3.75rem, 6vh, 4.25rem);
+      }
+
+      .screen-history-records-hover #history-mastery-level {
+        max-height: 0;
+        margin-top: 0;
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-4px);
+      }
+
+      .screen-history-records-hover .history-mastery-details {
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      .history-records-card {
+        transition: flex-grow 280ms ease, margin-top 280ms ease, transform 280ms ease;
+      }
+
+      .screen-history-records-hover .history-records-card {
+        flex-grow: 1.55;
+      }
+
+      .screen-history-mastery-hover .history-mastery-card {
+        min-height: clamp(5.75rem, 8vh, 7.5rem);
+        max-height: min(420px, 60vh);
+      }
+
+      .screen-history-mastery-hover #history-mastery-level {
+        max-height: 0;
+        margin-top: 0;
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-4px);
+      }
+
+      .screen-history-mastery-hover .history-mastery-details {
+        max-height: min(320px, 44vh);
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .screen-history-mastery-hover .history-records-card {
+        min-height: 0;
+        max-height: clamp(10rem, 20vh, 14rem);
+        flex-grow: 0.55;
+        flex-shrink: 1;
+        flex-basis: 0;
+      }
+
+    </style>
+  </head>
+  <body class="flex h-screen items-center justify-center overflow-hidden bg-slate-950 p-4 text-slate-900">
+    <div class="bg-orb -top-24 -left-24 h-64 w-64 bg-emerald-400"></div>
+    <div class="bg-orb top-36 -right-24 h-72 w-72 bg-cyan-300"></div>
+    <div class="bg-orb bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 bg-amber-300"></div>
+
+    <div class="relative z-10 mx-auto flex h-[calc(100dvh-2rem)] min-h-0 min-w-0 w-full max-w-3xl items-stretch overflow-hidden rounded-[2.5rem] border border-white/30 bg-white/10 shadow-2xl backdrop-blur-xl">
+      <aside class="flex shrink-0 w-20 flex-col border-r border-white/60 bg-white/80 px-3 py-4 backdrop-blur-xl sm:w-24">
+        <div class="mb-4 flex items-center justify-center rounded-2xl bg-slate-900 px-3 py-3 text-white shadow-lg shadow-slate-900/15">
+          <i class="fa-solid fa-recycle text-xl"></i>
+        </div>
+        <div class="flex flex-1 flex-col gap-3">
+          <button type="button" class="nav-tab flex flex-col items-center justify-center rounded-2xl px-2 py-3 text-xs font-bold text-slate-500 transition" data-screen="home">
+            <span class="text-lg">📷</span>
+            <span class="mt-1 hidden lg:block">홈</span>
+          </button>
+          <button type="button" class="nav-tab flex flex-col items-center justify-center rounded-2xl px-2 py-3 text-xs font-bold text-slate-500 transition" data-screen="history">
+            <span class="text-lg">⭐️</span>
+            <span class="mt-1 hidden lg:block">기록</span>
+          </button>
+          <button type="button" class="nav-tab flex flex-col items-center justify-center rounded-2xl px-2 py-3 text-xs font-bold text-slate-500 transition" data-screen="quiz">
+            <span class="text-lg">📝</span>
+            <span class="mt-1 hidden lg:block">퀴즈</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="relative min-h-0 min-w-0 flex-1 overflow-hidden">
+        <div class="flex h-full min-h-0 w-full min-w-0 gap-4 overflow-hidden px-4 py-4 sm:px-5 lg:px-6">
+      <section class="glass-card panel-scroll hidden h-full min-h-0 min-w-0 w-full rounded-[2rem] border border-white/60 shadow-[0_20px_80px_rgba(15,23,42,0.18)] overflow-y-auto" id="screen-loading">
+        <div class="flex h-full min-h-0 flex-col items-center justify-center gap-6 px-8 py-10 text-center">
+          <div class="relative flex h-24 w-24 items-center justify-center">
+            <div class="absolute inset-0 rounded-full border-4 border-emerald-500/15"></div>
+            <div class="absolute inset-2 rounded-full border-4 border-t-emerald-500 border-r-cyan-500 border-b-transparent border-l-transparent animate-spin"></div>
+            <div class="absolute inset-5 rounded-full bg-emerald-500/10 animate-floatUp"></div>
+            <div class="relative flex h-12 w-12 items-center justify-center rounded-full bg-white text-emerald-600 shadow-lg shadow-emerald-500/20">
+              <i class="fa-solid fa-recycle text-2xl"></i>
+            </div>
+          </div>
+          <div>
+            <p class="text-2xl font-extrabold tracking-tight text-slate-900">AI가 쓰레기를 분석하고 있어요...</p>
+            <p class="mt-3 text-sm leading-6 text-slate-600">분리배출 규정과 주의사항을 빠르게 확인 중입니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="glass-card panel-scroll hidden h-full min-h-0 min-w-0 w-full rounded-[2rem] border border-white/60 shadow-[0_20px_80px_rgba(15,23,42,0.18)] overflow-y-auto" id="screen-result">
+        <div class="flex h-full min-h-0 min-w-0 flex-col px-5 py-6 sm:px-8">
+          <div class="mb-6 flex min-w-0 items-start justify-between gap-3">
+            <div class="min-w-0">
+              <p class="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">분석 결과</p>
+              <h1 class="mt-2 break-words text-2xl font-extrabold tracking-tight text-slate-900">어따버려</h1>
+            </div>
+            <div class="flex shrink-0 items-center gap-2">
+              <button id="btn-result-favorite" type="button" class="flex h-11 w-11 items-center justify-center rounded-2xl border border-amber-200 bg-amber-50 text-amber-500 shadow-lg shadow-amber-200/30 transition hover:-translate-y-0.5 hover:bg-amber-100" aria-label="즐겨찾기 토글">
+                <i id="result-favorite-icon" class="fa-regular fa-star text-lg"></i>
+              </button>
+              <button id="btn-result-done" type="button" class="rounded-2xl bg-slate-900 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-slate-900/20 transition hover:bg-slate-800">
+                완료
+              </button>
+            </div>
+          </div>
+
+          <div class="min-h-[clamp(10rem,16vh,10.5rem)] rounded-[1.5rem] bg-slate-900 p-5 text-white shadow-xl shadow-slate-900/10">
+            <p class="text-sm font-medium text-slate-300">인식된 쓰레기</p>
+            <h2 id="result-item-name" class="mt-2 break-words text-3xl font-extrabold tracking-tight">-</h2>
+            <div class="mt-4 flex flex-wrap items-center gap-2">
+              <span id="result-category-badge" class="inline-flex items-center rounded-full px-3 py-1 text-sm font-bold">-</span>
+            </div>
+          </div>
+
+          <div class="mt-5 flex min-h-[clamp(14rem,26vh,16rem)] flex-1 flex-col rounded-[1.5rem] bg-white/90 p-5 shadow-lg shadow-slate-900/5">
+            <h3 class="text-lg font-bold text-slate-900">분리배출 방법</h3>
+            <div class="panel-scroll mt-4 min-h-0 flex-1 overflow-y-auto pr-1">
+              <ol id="result-steps" class="space-y-3"></ol>
+            </div>
+          </div>
+
+          <div id="result-warning-wrap" class="mt-5 hidden rounded-[1.5rem] border border-amber-200 bg-amber-50 p-5 text-amber-900">
+            <div class="flex items-start gap-3">
+              <div class="mt-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-amber-200 text-amber-900">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+              </div>
+              <div>
+                <p class="font-bold">주의사항</p>
+                <p id="result-warning" class="mt-2 text-sm leading-6"></p>
+              </div>
+            </div>
+          </div>
+
+          <button id="btn-rescan" type="button" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-500 px-4 py-4 text-base font-bold text-white shadow-lg shadow-emerald-500/25 transition hover:bg-emerald-600 active:scale-[0.99]">
+            <i class="fa-solid fa-camera-retro"></i>
+            다시 찍기
+          </button>
+        </div>
+      </section>
+
+      <section class="glass-card panel-scroll hidden h-full min-h-0 min-w-0 w-full rounded-[2rem] border border-white/60 shadow-[0_20px_80px_rgba(15,23,42,0.18)] overflow-y-auto" id="screen-history">
+        <div class="flex h-full min-h-0 min-w-0 flex-col px-5 py-6 sm:px-8">
+          <div class="mb-5">
+            <p class="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">기록 · 마스터리</p>
+            <h2 class="mt-2 text-2xl font-extrabold tracking-tight text-slate-900">나의 학습 기록</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-600">찍을수록 쌓이는 기록과 성취감을 확인해 보세요.</p>
+          </div>
+
+          <div id="history-mastery-card" class="history-mastery-card overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-slate-900 to-slate-800 p-5 text-white shadow-xl shadow-slate-900/15">
+            <p class="text-xs font-bold uppercase tracking-[0.3em] text-emerald-300">마스터리 영역</p>
+            <h3 id="history-mastery-level" class="mt-2 break-words text-3xl font-extrabold tracking-tight">씨앗</h3>
+            <div id="history-mastery-details" class="history-mastery-details">
+              <p id="history-mastery-desc" class="mt-4 break-words text-sm leading-6 text-slate-300">아직 시작 단계예요.</p>
+              <div class="mt-5 rounded-2xl bg-white/10 px-4 py-3 text-sm leading-6 text-slate-200">
+                <div class="flex items-center justify-between gap-3">
+                  <div>
+                    <p class="text-xs text-slate-300">총 학습 횟수</p>
+                    <p id="history-total-scans" class="mt-1 text-2xl font-extrabold">0</p>
+                  </div>
+                  <div class="max-w-[60%] text-right text-xs leading-5 text-slate-200">
+                    <p class="font-bold text-white">마스터리 단계</p>
+                    <p class="mt-1">씨앗 → 새싹 → 나무 → 숲 → 지구 지킴이</p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 h-3 overflow-hidden rounded-full bg-white/10">
+                <div id="history-progress-bar" class="h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400" style="width: 0%"></div>
+              </div>
+              <p id="history-progress-text" class="mt-2 text-xs text-slate-300">0%</p>
+            </div>
+          </div>
+
+          <div id="history-records-card" class="history-records-card mt-5 flex min-h-[clamp(13rem,30vh,17rem)] flex-1 flex-col rounded-[1.5rem] bg-white/90 p-5 shadow-lg shadow-slate-900/5">
+            <div class="flex min-w-0 items-center justify-between gap-3">
+              <h3 class="truncate text-lg font-bold text-slate-900">나의 기록</h3>
+              <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">즐겨찾기는 별 표시</span>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-1">
+              <button id="history-filter-all" type="button" class="rounded-xl bg-white px-3 py-2 text-sm font-bold text-slate-900 shadow-sm">전체 보기</button>
+              <button id="history-filter-favorite" type="button" class="rounded-xl px-3 py-2 text-sm font-bold text-slate-500">즐겨찾기만 보기 ⭐</button>
+            </div>
+            <div class="panel-scroll mt-4 min-h-0 flex-1 overflow-y-auto pr-1">
+              <div id="history-list" class="space-y-3"></div>
+            </div>
+            <div id="history-empty" class="hidden rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-5 py-8 text-center text-sm leading-6 text-slate-500">
+              아직 기록이 없어요. 홈 탭에서 사진을 찍어 학습 기록을 쌓아보세요.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="glass-card panel-scroll hidden h-full min-h-0 min-w-0 w-full rounded-[2rem] border border-white/60 shadow-[0_20px_80px_rgba(15,23,42,0.18)] overflow-y-auto" id="screen-quiz">
+        <div class="flex h-full min-h-0 min-w-0 flex-col px-5 py-6 sm:px-8">
+          <div class="mb-5">
+            <p class="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">OX 퀴즈</p>
+            <h2 class="mt-2 text-2xl font-extrabold tracking-tight text-slate-900">틈새 학습 도전</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-600">맞히면서 자연스럽게 분리배출 상식을 쌓아보세요.</p>
+          </div>
+
+          <div class="min-h-[clamp(17rem,38vh,20rem)] flex min-h-0 flex-1 flex-col rounded-[1.5rem] bg-white/90 p-5 shadow-lg shadow-slate-900/5">
+            <div class="flex items-center justify-between gap-3">
+              <span id="quiz-progress" class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">문제 1/5</span>
+              <div class="flex items-center gap-2">
+                <span id="quiz-score" class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">점수 0점</span>
+                <span id="quiz-combo" class="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-700">콤보 0</span>
+              </div>
+            </div>
+            <h3 id="quiz-question" class="mt-5 text-2xl font-extrabold leading-tight text-slate-900">문제가 여기에 표시됩니다.</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-500">정답을 고르면 해설과 함께 다음 문제로 넘어갑니다.</p>
+
+            <div class="mt-6 grid grid-cols-2 gap-3">
+              <button id="quiz-btn-o" type="button" class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-5 text-xl font-black text-emerald-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-100">O</button>
+              <button id="quiz-btn-x" type="button" class="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-5 text-xl font-black text-rose-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-rose-100">X</button>
+            </div>
+
+            <div id="quiz-feedback" class="mt-5 hidden rounded-2xl border px-4 py-4 text-sm leading-6"></div>
+
+            <button id="quiz-btn-next" type="button" class="mt-4 hidden w-full rounded-2xl bg-slate-900 px-4 py-4 text-base font-bold text-white shadow-lg shadow-slate-900/20 transition hover:bg-slate-800">
+              다음 문제
+            </button>
+
+            <div id="quiz-result" class="hidden mt-5 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5 text-center">
+              <p class="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">퀴즈 완료</p>
+              <h4 id="quiz-result-title" class="mt-3 text-2xl font-extrabold tracking-tight text-slate-900">수고하셨습니다!</h4>
+              <p id="quiz-result-message" class="mt-2 text-sm leading-6 text-slate-600">당신의 점수는 0점입니다.</p>
+              <button id="quiz-btn-retry" type="button" class="mt-5 w-full rounded-2xl bg-emerald-500 px-4 py-4 text-base font-bold text-white shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-600">다시 풀기</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="glass-card panel-scroll h-full min-h-0 min-w-0 w-full rounded-[2rem] border border-white/60 shadow-[0_20px_80px_rgba(15,23,42,0.18)] overflow-y-auto" id="screen-home">
+        <div class="flex h-full min-h-0 min-w-0 flex-col px-5 py-6 sm:px-8">
+          <div class="mb-8 flex min-w-0 items-start justify-between gap-3">
+            <div class="min-w-0">
+              <p class="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">AI 분리배출 안내</p>
+              <h1 class="mt-3 break-words text-4xl font-black tracking-tight text-slate-950">어따버려?</h1>
+              <p class="mt-3 max-w-sm break-words text-sm leading-5 tracking-[-0.01em] text-slate-600">쓰레기를 찍으면 AI가 분리배출 방법을 바로 알려드려요.</p>
+            </div>
+            <div class="shrink-0 rounded-3xl bg-slate-900 p-3 text-white shadow-lg shadow-slate-900/20">
+              <i class="fa-solid fa-recycle text-2xl"></i>
+            </div>
+          </div>
+
+          <div class="shrink-0 min-h-[clamp(9.5rem,18vh,11rem)] max-w-full rounded-[1.5rem] bg-gradient-to-br from-emerald-500 to-cyan-500 p-[1px] shadow-xl shadow-emerald-500/15">
+            <div class="min-w-0 max-w-full rounded-[1.45rem] bg-white/95 p-5">
+              <div class="flex min-w-0 items-start gap-4">
+                <div class="shrink-0 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600">
+                  <i class="fa-solid fa-camera text-xl"></i>
+                </div>
+                <div class="min-w-0">
+                  <h2 class="break-words text-lg font-bold text-slate-900">지금 바로 촬영하기</h2>
+                  <p class="mt-1 break-words text-sm leading-6 text-slate-600">카메라로 찍거나 갤러리에서 사진을 선택하면 바로 분석됩니다.</p>
+                </div>
+              </div>
+
+              <label for="trash-file" class="mt-5 flex min-w-0 cursor-pointer items-center justify-center gap-3 rounded-2xl bg-slate-900 px-4 py-4 text-base font-bold text-white transition hover:bg-slate-800 active:scale-[0.99]">
+                <i class="fa-solid fa-circle-plus"></i>
+                사진 선택하고 분석하기
+              </label>
+              <input id="trash-file" type="file" capture="environment" accept="image/*" class="hidden" />
+            </div>
+          </div>
+
+          <div class="mt-6 h-auto shrink-0 min-h-[clamp(26rem,54vh,36rem)] max-w-full rounded-[1.5rem] border border-slate-200/80 bg-white/95 shadow-lg shadow-slate-900/5">
+            <div class="max-w-full px-5 py-6">
+              <div class="flex min-w-0 items-start gap-3 pb-4">
+                <div class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div class="min-w-0">
+                  <p class="break-words text-sm font-bold tracking-[-0.02em] text-emerald-600">사진 한 장으로 이렇게 알려드려요</p>
+                  <p class="mt-2 break-words text-sm leading-6 text-slate-600">사진을 찍기 전에 흐름을 미리 보여드려, 어떤 안내를 받게 되는지 한눈에 확인할 수 있어요.</p>
+                </div>
+              </div>
+
+              <div class="h-px bg-slate-200/80"></div>
+
+              <div class="relative mt-6 max-w-full space-y-5 pl-1 sm:space-y-6">
+                <div class="absolute left-[1.3125rem] top-6 bottom-6 w-px border-l border-dashed border-emerald-200/80"></div>
+
+                <div class="relative flex min-w-0 flex-wrap items-start gap-3 sm:flex-nowrap sm:gap-4">
+                  <div class="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-emerald-500 text-white shadow-md shadow-emerald-500/20">
+                    <i class="fa-solid fa-camera"></i>
+                  </div>
+                  <div class="min-w-0 flex-1 pt-0.5">
+                    <h3 class="break-words text-sm font-bold text-slate-900 sm:text-base">올바른 사진 촬영</h3>
+                    <p class="mt-1 break-words text-xs leading-5 text-slate-600 sm:text-sm sm:leading-6">밝은 곳에서 쓰레기가 잘 보이도록 중앙에 맞춰 찍어 주세요. 사진이 선명할수록 안내가 더 안정적입니다.</p>
+                  </div>
+                </div>
+
+                <div class="relative flex min-w-0 flex-wrap items-start gap-3 sm:flex-nowrap sm:gap-4">
+                  <div class="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-cyan-500 text-white shadow-md shadow-cyan-500/20">
+                    <i class="fa-solid fa-robot"></i>
+                  </div>
+                  <div class="min-w-0 flex-1 pt-0.5">
+                    <h3 class="break-words text-sm font-bold text-slate-900 sm:text-base">한국 기준 AI 분석</h3>
+                    <p class="mt-1 break-words text-xs leading-5 text-slate-600 sm:text-sm sm:leading-6">AI가 형태와 재질을 살펴보고, 국내 분리배출 기준에 맞춰 가장 적절한 분류를 추론합니다.</p>
+                  </div>
+                </div>
+
+                <div class="relative flex min-w-0 flex-wrap items-start gap-3 sm:flex-nowrap sm:gap-4">
+                  <div class="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-md shadow-slate-900/15">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                  </div>
+                  <div class="min-w-0 flex-1 pt-0.5">
+                    <h3 class="break-words text-sm font-bold text-slate-900 sm:text-base">맞춤형 규정 안내</h3>
+                    <p class="mt-1 break-words text-xs leading-5 text-slate-600 sm:text-sm sm:leading-6">분리배출 카테고리와 단계별 배출 방법을 정리해, 바로 따라 할 수 있게 안내해 드립니다.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="mt-6 shrink-0 pt-2 text-center text-xs leading-5 text-slate-500">업로드된 사진은 분석용으로만 전송됩니다.</p>
+        </div>
+      </section>
+        </div>
+      </main>
+    </div>
+
+    <div id="toast-container" class="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
