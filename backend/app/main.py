@@ -26,7 +26,10 @@ if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
 
 GEMINI_MODEL_CANDIDATES = [
-    os.getenv("GEMINI_MODEL_NAME", "gemini-1.5-flash"),
+    os.getenv("GEMINI_MODEL_NAME", "gemini-3.5-flash"),
+    "gemini-flash-latest",
+    "gemini-2.5-flash-lite",
+    "gemini-3.1-flash-lite",
     "gemini-2.5-flash",
     "gemini-2.0-flash",
 ]
