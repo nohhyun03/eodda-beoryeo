@@ -16,18 +16,10 @@ from .database import Base, engine, get_db
 from .models import ScanHistory, User
 
 
-load_dotenv()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-UPLOAD_DIR = BASE_DIR / "uploads"
+load_dotenv(dotenv_path=BASE_DIR / ".env")
 
-
-def ensure_upload_dir() -> None:
-    # 업로드 API 호출 전후로 디렉토리 유무를 보장해 저장 실패를 막는다.
-    os.makedirs(UPLOAD_DIR, exist_ok=True)
-
-
-ensure_upload_dir()
+# 이미지 업로드를 디스크에 저장하지 않으므로 UPLOAD_DIR 정의 생략
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if GEMINI_API_KEY:
@@ -81,7 +73,6 @@ app.add_middleware(
 
 @app.on_event("startup")
 def on_startup() -> None:
-    ensure_upload_dir()
     Base.metadata.create_all(bind=engine)
     ensure_history_schema()
 
@@ -211,7 +202,6 @@ async def analyze_image(
     device_token: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    ensure_upload_dir()
 
     if not image.content_type or not image.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="이미지 파일만 업로드할 수 있습니다.")
@@ -223,12 +213,7 @@ async def analyze_image(
         db.commit()
         db.refresh(user)
 
-    file_extension = Path(image.filename or "").suffix or ".jpg"
-    stored_filename = f"{uuid.uuid4().hex}{file_extension}"
-    stored_path = UPLOAD_DIR / stored_filename
-
     file_bytes = await image.read()
-    stored_path.write_bytes(file_bytes)
 
     try:
         model = _get_gemini_model()
@@ -281,7 +266,7 @@ async def analyze_image(
         else:
             scan_history = ScanHistory(
                 user_id=user.id,
-                image_path=str(stored_path),
+                image_path=image.filename or "uploaded_image.jpg",
                 item_name=parsed["itemName"],
                 category=parsed["category"],
                 guide_steps=parsed["steps"],
