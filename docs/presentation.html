@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>어따버려 프로젝트 발표 자료</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans KR, Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800&display=swap"
+    rel="stylesheet">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+      overflow: hidden;
+      background-color: #f8fafc;
+    }
+
+    .slide {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+      transform: scale(0.99);
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Custom Scrollbar for notes drawer */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(241, 245, 249, 0.5);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(16, 185, 129, 0.5);
+      border-radius: 9999px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(16, 185, 129, 0.7);
+    }
+  </style>
+</head>
+
+<body class="text-slate-900 min-h-screen flex flex-col justify-between select-none">
+
+  <!-- TOP BAR: Project Name & Keyboard Guide -->
+  <header
+    class="w-full px-8 py-4 flex justify-between items-center border-b-2 border-slate-200 bg-white/95 backdrop-blur-md z-10 shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="h-9 w-9 rounded-lg bg-emerald-500 flex items-center justify-center shadow-md">
+        <i class="fa-solid fa-recycle text-white text-base"></i>
+      </div>
+      <span class="font-extrabold text-2xl tracking-wider text-emerald-700">어따버려</span>
+      <span class="text-xs text-slate-500 font-bold px-2 py-0.5 rounded-full border border-slate-350 bg-slate-100">기말
+        프로젝트 발표</span>
+    </div>
+
+  </header>
+
+  <!-- MIDDLE SECTION: Slide Deck + Speaker Notes Sidebar -->
+  <div class="flex-1 w-full flex flex-row overflow-hidden relative">
+
+    <!-- LEFT: SLIDES WINDOW (Large content layout optimized for classrooms) -->
+    <main id="main-slides"
+      class="flex-1 px-12 py-8 flex items-center justify-center relative overflow-hidden transition-all duration-300">
+
+      <!-- [1장] 프로젝트 제목 · 자기 소개 -->
+      <section class="slide active w-full flex-col justify-center items-center text-center space-y-8"
+        data-slide-index="1">
+        <div
+          class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-lg font-black tracking-wide">
+          🌱 AI 카메라 기반 쓰레기 분리배출 안내 서비스
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-black tracking-tight leading-tight max-w-5xl text-slate-900">
+          사진 한 장으로 끝내는<br>분리수거 가이드, <span class="text-emerald-600">어따버려</span>
+        </h1>
+        <p class="text-slate-600 text-xl sm:text-2xl max-w-3xl font-normal leading-relaxed">
+          사진 분석 AI 기술을 통해 헷갈리고 애매한 일상 쓰레기의 올바른 배출법을 즉시 안내해 주는 서비스
+        </p>
+        <div class="pt-8 flex flex-col items-center gap-2">
+          <div class="text-base text-slate-500 font-semibold tracking-wider">기말 프로젝트 발표</div>
+          <div class="text-2xl text-slate-800 font-black mt-1">[컴퓨터공학전공 / 22212013 / 노현석]</div>
+        </div>
+      </section>
+
+      <!-- [2장] 문제 정의 -->
+      <section class="slide w-full flex-col justify-center space-y-8" data-slide-index="2">
+        <div class="space-y-3">
+          <span class="text-sm font-black uppercase tracking-wider text-emerald-600">Problem Definition</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-slate-900">쓰레기통 앞에서의 망설임과 비효율적인 정보 탐색</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full pt-4">
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl flex flex-col gap-5 shadow-sm">
+            <div
+              class="h-14 w-14 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-600 text-2xl shrink-0">
+              <i class="fa-solid fa-face-frown"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-900">애매한 배출 기준</h3>
+            <p class="text-base sm:text-lg text-slate-700 leading-relaxed font-medium">칫솔, 영수증, 컵라면 용기 등 겉보기에 헷갈리는 품목의
+              분리수거 스트레스</p>
+          </div>
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl flex flex-col gap-5 shadow-sm">
+            <div
+              class="h-14 w-14 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-600 text-2xl shrink-0">
+              <i class="fa-solid fa-hourglass-half"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-900">검색의 번거로움</h3>
+            <p class="text-base sm:text-lg text-slate-700 leading-relaxed font-medium">포털 사이트나 공식 블로그의 복잡한 텍스트 가이드를 찾아
+              헤매는 시간 낭비</p>
+          </div>
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl flex flex-col gap-5 shadow-sm">
+            <div
+              class="h-14 w-14 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-600 text-2xl shrink-0">
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-900">정리 지연</h3>
+            <p class="text-base sm:text-lg text-slate-700 leading-relaxed font-medium">복잡한 배출 절차 때문에 쓰레기를 제때 처리하지 못하고
+              쌓아두게 되는 불편함</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- [3장] 주제 선정 배경 -->
+      <section class="slide w-full flex-col justify-center space-y-8" data-slide-index="3">
+        <div class="space-y-3">
+          <span class="text-sm font-black uppercase tracking-wider text-emerald-600">Background</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-slate-900">텍스트 검색의 한계를 넘는 '비전 AI' 기반 해결책</h2>
+        </div>
+        <div class="flex flex-col md:flex-row items-center gap-10 pt-4">
+          <div class="flex-1 space-y-6">
+            <div class="flex gap-5">
+              <div
+                class="h-10 w-10 rounded-full bg-emerald-500/10 border-2 border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-700 text-lg font-black">
+                1</div>
+              <div>
+                <h4 class="text-xl font-black text-slate-900">이름 몰라도 찰칵</h4>
+                <p class="text-base sm:text-lg text-slate-700 mt-1 leading-relaxed font-medium">이름이 모호해 검색창에 타이핑하기 어려운
+                  사물들도 이미지 촬영 및 업로드만으로 즉시 파악합니다.</p>
+              </div>
+            </div>
+            <div class="flex gap-5">
+              <div
+                class="h-10 w-10 rounded-full bg-emerald-500/10 border-2 border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-700 text-lg font-black">
+                2</div>
+              <div>
+                <h4 class="text-xl font-black text-slate-900">버리는 시점의 꿀팁</h4>
+                <p class="text-base sm:text-lg text-slate-700 mt-1 leading-relaxed font-medium">버려지는 그 자리에 꼭 필요한 핵심 버리기
+                  꿀팁 가이드(세척 여부, 뚜껑 탈거)를 즉석에서 전달합니다.</p>
+              </div>
+            </div>
+            <div class="flex gap-5">
+              <div
+                class="h-10 w-10 rounded-full bg-emerald-500/10 border-2 border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-700 text-lg font-black">
+                3</div>
+              <div>
+                <h4 class="text-xl font-black text-slate-900">Gemini 비전 API 활용</h4>
+                <p class="text-base sm:text-lg text-slate-700 mt-1 leading-relaxed font-medium">구글 제미나이의 높은 시각적 상황 이해
+                  능력을 빌려 다양한 생활 쓰레기의 품목과 주의점을 분류합니다.</p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="w-full md:w-2/5 bg-white border-2 border-slate-200 p-8 rounded-3xl flex flex-col justify-center items-center text-center space-y-4 shadow-sm">
+            <i class="fa-solid fa-comments text-emerald-600 text-6xl"></i>
+            <div class="text-2xl font-black text-slate-800">이미지 분석 ➔ 즉시 판별</div>
+            <div class="text-base text-slate-600 leading-relaxed font-medium font-bold">텍스트 검색의 번거로움에 갇히지 않고, 문제 정의를
+              해결하는 직관적 편리성에 집중했습니다.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- [4장] 대상 사용자 -->
+      <section class="slide w-full flex-col justify-center space-y-8" data-slide-index="4">
+        <div class="space-y-3">
+          <span class="text-sm font-black uppercase tracking-wider text-emerald-600">Target Audience</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-slate-900">일상 속 분리배출 정보가 필요한 남녀노소 누구나</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl flex flex-col gap-4 shadow-sm">
+            <div
+              class="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-700 text-2xl shrink-0">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h3 class="text-xl font-black text-slate-900">1인 가구 및 자취생</h3>
+            <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">배달음식 이용률은 높으나 배출 지침 인지도가 낮은 자취생 및
+              1인 가구 사용자들</p>
+          </div>
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl flex flex-col gap-4 shadow-sm">
+            <div
+              class="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-700 text-2xl shrink-0">
+              <i class="fa-solid fa-kitchen-set"></i>
+            </div>
+            <h3 class="text-xl font-black text-slate-900">가사 초보자</h3>
+            <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">애매한 생활 폐기물 배출 기준을 모르는 초보 살림꾼과 청년
+              가구</p>
+          </div>
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl flex flex-col gap-4 shadow-sm">
+            <div
+              class="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-700 text-2xl shrink-0">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <h3 class="text-xl font-black text-slate-900">일반 가구 및 대중</h3>
+            <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">매번 환경 가이드를 찾아보기 번거롭고 정보가 필요한 모든
+              시민들</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- [5장] 서비스 · 시스템 개요 -->
+      <section class="slide w-full flex-col justify-center space-y-8" data-slide-index="5">
+        <div class="space-y-3">
+          <span class="text-sm font-black uppercase tracking-wider text-emerald-600">Service Overview</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-slate-900">올바른 배출을 실천하는 사용자 중심 도우미</h2>
+        </div>
+        <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl flex flex-col gap-6 shadow-sm">
+          <div class="text-center md:text-left space-y-2">
+            <div class="text-emerald-700 font-extrabold text-xl">어따버려의 궁극적 목표</div>
+            <p class="text-2xl sm:text-3xl font-black text-slate-900 leading-tight">"인터넷 검색 시간을 획기적으로 줄여 빠르고 명쾌하게 배출법
+              안내"</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2 border-t border-slate-200">
+            <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+              <div class="flex items-center gap-2 text-emerald-700 font-extrabold text-lg mb-1">
+                <i class="fa-solid fa-clock"></i> 고민 시간 단축
+              </div>
+              <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">사진 한 장만 올리면 복잡한 지침을 읽어볼 필요 없이
+                즉석에서 명쾌하게 판단</p>
+            </div>
+            <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+              <div class="flex items-center gap-2 text-emerald-700 font-extrabold text-lg mb-1">
+                <i class="fa-solid fa-lightbulb"></i> 올바른 상식의 체득
+              </div>
+              <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">가벼운 O/X 퀴즈 미니게임 플레이와 해설을 통해 잘못
+                알던 재활용 버릇 교정</p>
+            </div>
+            <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+              <div class="flex items-center gap-2 text-emerald-700 font-extrabold text-lg mb-1">
+                <i class="fa-solid fa-leaf"></i> 에코 습관 형성
+              </div>
+              <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">스캔 수에 맞춰 '씨앗'에서 '지구 지킴이'까지 단계
+                등급을 올리는 레벨 성장 체계</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- [6장] 핵심 기능 -->
+      <section class="slide w-full flex-col justify-center space-y-8" data-slide-index="6">
+        <div class="space-y-3">
+          <span class="text-sm font-black uppercase tracking-wider text-emerald-600">Core Features</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-slate-900">신속한 배출과 정리를 돕는 실속 있는 3대 기능</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+          <div
+            class="bg-white border-2 border-slate-200 p-8 rounded-2xl space-y-4 hover:border-emerald-500/30 transition shadow-sm">
+            <div
+              class="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-700 text-xl shrink-0">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <h4 class="text-2xl font-black text-slate-900">실시간 사진 분석</h4>
+            <p class="text-base text-slate-600 leading-relaxed font-medium">사진을 선택해 올리면 AI가 즉각 품목명과 함께, 씻는 여부 및 떼서 버려야
+              하는 꿀팁 수칙을 화면에 명쾌하게 시각화합니다.</p>
+          </div>
+          <div
+            class="bg-white border-2 border-slate-200 p-8 rounded-2xl space-y-4 hover:border-emerald-500/30 transition shadow-sm">
+            <div
+              class="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-700 text-xl shrink-0">
+              <i class="fa-solid fa-leaf"></i>
+            </div>
+            <h4 class="text-2xl font-black text-slate-900">이력 및 보관 기능</h4>
+            <p class="text-base text-slate-600 leading-relaxed font-medium">분석한 내역(SQLite)을 저장해 언제든 다시 확인하고, 헷갈리는 내역은
+              별표를 눌러 즐겨찾기 보관할 수 있습니다.</p>
+          </div>
+          <div
+            class="bg-white border-2 border-slate-200 p-8 rounded-2xl space-y-4 hover:border-emerald-500/30 transition shadow-sm">
+            <div
+              class="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-700 text-xl shrink-0">
+              <i class="fa-solid fa-gamepad"></i>
+            </div>
+            <h4 class="text-2xl font-black text-slate-900">환경 O/X 퀴즈</h4>
+            <p class="text-base text-slate-600 leading-relaxed font-medium">평소 오해하기 쉬운 분리수거 지식을 O/X 미니 퀴즈와 유쾌한 오답 노트를 통해
+              자연스럽게 바로잡는 교육 게임 피처입니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- [7장] 시스템 구조 -->
+      <section class="slide w-full flex-col justify-center space-y-8" data-slide-index="7">
+        <div class="space-y-3">
+          <span class="text-sm font-black uppercase tracking-wider text-emerald-600">System Flow</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-slate-900">사용자가 경험하는 자연스러운 경험의 흐름</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 text-center">
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl relative shadow-sm">
+            <div
+              class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-emerald-600 text-white rounded-full text-xs font-black uppercase tracking-wider shadow-sm">
+              Step 1</div>
+            <i class="fa-solid fa-cloud-arrow-up text-emerald-700 text-4xl mt-3 mb-5"></i>
+            <h4 class="text-2xl font-black text-slate-900">가벼운 업로드</h4>
+            <p class="text-base text-slate-600 mt-3 leading-relaxed font-medium">눈앞의 애매하고 헷갈리는 사물 사진을 파일 선택창에서 가볍게
+              업로드합니다.</p>
+          </div>
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl relative shadow-sm">
+            <div
+              class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-emerald-600 text-white rounded-full text-xs font-black uppercase tracking-wider shadow-sm">
+              Step 2</div>
+            <i class="fa-solid fa-wand-magic-sparkles text-emerald-700 text-4xl mt-3 mb-5"></i>
+            <h4 class="text-2xl font-black text-slate-900">지능형 해독</h4>
+            <p class="text-base text-slate-600 mt-3 leading-relaxed font-medium">백엔드 API와 Gemini 비전 모델이 연동되어 이미지 내 사물과
+              버리는 요령 해독</p>
+          </div>
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl relative shadow-sm">
+            <div
+              class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-emerald-600 text-white rounded-full text-xs font-black uppercase tracking-wider shadow-sm">
+              Step 3</div>
+            <i class="fa-solid fa-circle-check text-emerald-700 text-4xl mt-3 mb-5"></i>
+            <h4 class="text-2xl font-black text-slate-900">명쾌한 해답과 버리기</h4>
+            <p class="text-base text-slate-600 mt-3 leading-relaxed font-medium">분석 결과가 사용자 SQLite 데이터베이스에 이력으로 저장되며 결과
+              뷰 렌더링</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- [8장] 구현 화면 -->
+      <section class="slide w-full flex-col justify-center space-y-4" data-slide-index="8">
+        <div class="space-y-1">
+          <span class="text-sm font-black uppercase tracking-wider text-emerald-600">User Interface Screen</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-slate-900">한눈에 보는 실제 구현된 5대 핵심 화면</h2>
+        </div>
+
+        <!-- 5대 화면 레이아웃 자리 확보 (Symmetrical Mobile 9:16 Mockup Grid) -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 w-full pt-2">
+
+          <!-- 1. 홈 화면 -->
+          <div class="bg-white border-2 border-slate-200 p-4 rounded-2xl flex flex-col items-center shadow-sm">
+            <div
+              class="w-full aspect-[9/16] max-h-[370px] bg-slate-50 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden relative mb-2.5">
+              <img src="" alt="홈 화면 스크린샷"
+                class="absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-300"
+                onerror="this.style.opacity='0'">
+              <div class="flex flex-col items-center text-slate-400 text-center p-2 pointer-events-none">
+                <i class="fa-solid fa-mobile-screen-button text-3xl mb-1.5 text-slate-350"></i>
+                <span class="text-xs font-bold leading-tight">1. 홈 화면<br>스크린샷</span>
+              </div>
+            </div>
+            <div class="font-black text-slate-900 text-base">홈 화면</div>
+            <div class="text-[11px] text-slate-500 font-bold mt-0.5 text-center leading-tight">파일 첨부 및 분석 실행</div>
+          </div>
+
+          <!-- 2. 로딩 화면 -->
+          <div class="bg-white border-2 border-slate-200 p-4 rounded-2xl flex flex-col items-center shadow-sm">
+            <div
+              class="w-full aspect-[9/16] max-h-[370px] bg-slate-50 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden relative mb-2.5">
+              <img src="" alt="로딩 화면 스크린샷"
+                class="absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-300"
+                onerror="this.style.opacity='0'">
+              <div class="flex flex-col items-center text-slate-400 text-center p-2 pointer-events-none">
+                <i class="fa-solid fa-arrows-spin text-3xl mb-1.5 text-slate-350 animate-spin"></i>
+                <span class="text-xs font-bold leading-tight">2. 로딩 화면<br>스크린샷</span>
+              </div>
+            </div>
+            <div class="font-black text-slate-900 text-base">로딩 화면</div>
+            <div class="text-[11px] text-slate-500 font-bold mt-0.5 text-center leading-tight">AI 분석 진행 피드백</div>
+          </div>
+
+          <!-- 3. 결과 화면 -->
+          <div class="bg-white border-2 border-slate-200 p-4 rounded-2xl flex flex-col items-center shadow-sm">
+            <div
+              class="w-full aspect-[9/16] max-h-[370px] bg-slate-50 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden relative mb-2.5">
+              <img src="" alt="결과 화면 스크린샷"
+                class="absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-300"
+                onerror="this.style.opacity='0'">
+              <div class="flex flex-col items-center text-slate-400 text-center p-2 pointer-events-none">
+                <i class="fa-solid fa-square-poll-horizontal text-3xl mb-1.5 text-slate-350"></i>
+                <span class="text-xs font-bold leading-tight">3. 결과 화면<br>스크린샷</span>
+              </div>
+            </div>
+            <div class="font-black text-slate-900 text-base">결과 화면</div>
+            <div class="text-[11px] text-slate-500 font-bold mt-0.5 text-center leading-tight">품목명 및 배출 수칙 안내</div>
+          </div>
+
+          <!-- 4. 기록 화면 -->
+          <div class="bg-white border-2 border-slate-200 p-4 rounded-2xl flex flex-col items-center shadow-sm">
+            <div
+              class="w-full aspect-[9/16] max-h-[370px] bg-slate-50 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden relative mb-2.5">
+              <img src="" alt="기록 화면 스크린샷"
+                class="absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-300"
+                onerror="this.style.opacity='0'">
+              <div class="flex flex-col items-center text-slate-400 text-center p-2 pointer-events-none">
+                <i class="fa-solid fa-clock-rotate-left text-3xl mb-1.5 text-slate-350"></i>
+                <span class="text-xs font-bold leading-tight">4. 기록 화면<br>스크린샷</span>
+              </div>
+            </div>
+            <div class="font-black text-slate-900 text-base">기록 화면</div>
+            <div class="text-[11px] text-slate-500 font-bold mt-0.5 text-center leading-tight">스캔 이력 조회 및 보관</div>
+          </div>
+
+          <!-- 5. 퀴즈 화면 -->
+          <div class="bg-white border-2 border-slate-200 p-4 rounded-2xl flex flex-col items-center shadow-sm">
+            <div
+              class="w-full aspect-[9/16] max-h-[370px] bg-slate-50 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden relative mb-2.5">
+              <img src="" alt="퀴즈 화면 스크린샷"
+                class="absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-300"
+                onerror="this.style.opacity='0'">
+              <div class="flex flex-col items-center text-slate-400 text-center p-2 pointer-events-none">
+                <i class="fa-solid fa-gamepad text-3xl mb-1.5 text-slate-350"></i>
+                <span class="text-xs font-bold leading-tight">5. 퀴즈 화면<br>스크린샷</span>
+              </div>
+            </div>
+            <div class="font-black text-slate-900 text-base">퀴즈 화면</div>
+            <div class="text-[11px] text-slate-500 font-bold mt-0.5 text-center leading-tight">상식 O/X 미니 게임</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- [9장] 시연 시나리오 (좌우 분할 및 화면 전체 높이 최적화) -->
+      <section class="slide w-full flex-col justify-center space-y-6" data-slide-index="9">
+        
+        <!-- 슬라이드 내부 좌우 분할 컨테이너 (부모 section의 flex-col 영향을 받지 않도록 분할 격리) -->
+        <div class="w-full flex flex-col md:flex-row items-center justify-between gap-12 h-full max-h-[600px]">
+          
+          <!-- LEFT PANEL (50% Width): Slide Title on Top + Step descriptions below -->
+          <div class="w-full md:w-1/2 flex flex-col justify-center space-y-5 text-left">
+            <!-- Slide Title (Relocated to left top) -->
+            <div class="space-y-1">
+              <span class="text-sm font-black uppercase tracking-wider text-emerald-600">Live Video Demo</span>
+              <h2 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">'어따버려' 서비스 실제 작동 시연 영상</h2>
+            </div>
+
+            <div class="space-y-4 w-full">
+              <div class="text-slate-500 text-sm sm:text-base font-bold leading-relaxed">
+                스마트폰 환경에 맞춤 설계된 UI를 통해 사용자는 최소한의 단계로 즉각적인 배출 해답을 얻게 됩니다.
+              </div>
+
+              <!-- Step 1 -->
+              <div class="bg-white border-2 border-slate-200 p-4 rounded-2xl flex gap-4 items-start shadow-sm">
+                <div class="h-9 w-9 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-700 text-base font-black">1</div>
+                <div>
+                  <h4 class="text-base font-black text-slate-900 leading-tight">직관적인 사진 촬영 및 업로드</h4>
+                  <p class="text-xs sm:text-sm text-slate-650 mt-1 leading-relaxed font-semibold">복잡한 분류명 타이핑 없이, 카메라로 쓰레기 사진을 찍어 간편하게 업로드합니다.</p>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="bg-white border-2 border-slate-200 p-4 rounded-2xl flex gap-4 items-start shadow-sm">
+                <div class="h-9 w-9 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-700 text-base font-black">2</div>
+                <div>
+                  <h4 class="text-base font-black text-slate-900 leading-tight">AI 실시간 비전 판별 및 분석</h4>
+                  <p class="text-xs sm:text-sm text-slate-650 mt-1 leading-relaxed font-semibold">구글 Gemini 비전 API가 실시간 연동되어 이미지 속 품목의 속성을 즉시 식별합니다.</p>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="bg-white border-2 border-slate-200 p-4 rounded-2xl flex gap-4 items-start shadow-sm">
+                <div class="h-9 w-9 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-700 text-base font-black">3</div>
+                <div>
+                  <h4 class="text-base font-black text-slate-900 leading-tight">단계별 배출 행동 강령 출력</h4>
+                  <p class="text-xs sm:text-sm text-slate-650 mt-1 leading-relaxed font-semibold">씻기, 라벨 제거, 쪼개기 등 사용자가 즉각 따라 할 수 있는 명쾌한 가이드를 띄웁니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT PANEL (50% Width): Pure 9:16 Video Container (No mobile frames, maximized height) -->
+          <div class="w-full md:w-1/2 h-full flex items-center justify-center">
+            <div class="w-full h-full max-h-[580px] aspect-[9/16] bg-slate-100 rounded-[2rem] border-2 border-slate-300 flex flex-col items-center justify-center text-center shadow-inner relative overflow-hidden group">
+              <!-- video 태그 또는 플레이스홀더 영역 -->
+              <div class="absolute inset-0 bg-emerald-600/5 group-hover:bg-emerald-600/0 transition-all duration-300"></div>
+              <i class="fa-solid fa-circle-play text-emerald-600 text-6xl mb-4 z-10 animate-pulse"></i>
+              <div class="text-2xl font-black text-slate-800 z-10 px-4">시연 비디오 상영 영역</div>
+              <div class="text-sm text-slate-550 font-bold mt-2 z-10 px-4 leading-normal">
+                이곳에 실제 서비스 동작 세로형 영상을 재생합니다.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- [10장] 테스트 결과 -->
+      <section class="slide w-full flex-col justify-center space-y-8" data-slide-index="10">
+        <div class="space-y-3">
+          <span class="text-sm font-black uppercase tracking-wider text-emerald-600">Test & Feedback</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-slate-900">검색 스트레스를 줄이고 배출 자신감을 키우다</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 text-center">
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl shadow-sm">
+            <div class="text-4xl font-black text-emerald-600"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <h4 class="text-2xl font-black text-slate-900 mt-4">정보 검색 시간의 단축</h4>
+            <p class="text-base text-slate-700 mt-3 leading-relaxed font-semibold">포털 블로그를 검색하며 헤매던 낭비 시간을 이미지 분석을 통해
+              획기적으로 단축시켰습니다.</p>
+          </div>
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl shadow-sm">
+            <div class="text-4xl font-black text-emerald-600"><i class="fa-solid fa-shield-heart"></i></div>
+            <h4 class="text-2xl font-black text-slate-900 mt-4">오배출 불안의 안심 전환</h4>
+            <p class="text-base text-slate-700 mt-3 leading-relaxed font-semibold">'내가 버린 쓰레기가 환경을 해치면 어쩌지?' 하던 심리적 찜찜함을
+              명쾌한 수칙으로 극복시켰습니다.</p>
+          </div>
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-3xl shadow-sm">
+            <div class="text-4xl font-black text-emerald-600"><i class="fa-solid fa-circle-nodes"></i></div>
+            <h4 class="text-2xl font-black text-slate-900 mt-4">자연스러운 배움과 교정</h4>
+            <p class="text-base text-slate-700 mt-3 leading-relaxed font-semibold">퀴즈의 가벼운 오답 해설 노트를 경험하며, 잘못 알고 있던 쓰레기
+              상식들을 스스로 자연스럽게 교정할 수 있었습니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- [11장] 한계점 및 개선 방향 -->
+      <section class="slide w-full flex-col justify-center space-y-8" data-slide-index="11">
+        <div class="space-y-3">
+          <span class="text-sm font-black uppercase tracking-wider text-emerald-600">Future Plan</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-slate-900">지역 규정 맞춤화와 공공 수거 정보 연계</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-2xl flex gap-6 items-start shadow-sm">
+            <div
+              class="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-700 text-2xl shrink-0">
+              <i class="fa-solid fa-location-crosshairs"></i>
+            </div>
+            <div class="space-y-2">
+              <h3 class="font-black text-slate-900 text-xl">지자체 세부 요일 및 수거 연동</h3>
+              <p class="text-base text-slate-600 leading-relaxed font-medium">현재 버전의 전국 표준 가이드를 넘어, 향후 거주 GPS 좌표를 받아 각
+                동네별 쓰레기 요일 정보와 분리수거대 위치를 자동 필터링하고자 합니다.</p>
+            </div>
+          </div>
+          <div class="bg-white border-2 border-slate-200 p-8 rounded-2xl flex gap-6 items-start shadow-sm">
+            <div
+              class="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-700 text-2xl shrink-0">
+              <i class="fa-solid fa-map-location-dot"></i>
+            </div>
+            <div class="space-y-2">
+              <h3 class="font-black text-slate-900 text-xl">주변 공공 분리수거함 위치 매핑</h3>
+              <p class="text-base text-slate-600 leading-relaxed font-medium">지하철역, 공원 및 거리 곳곳에 위치한 공공 분리수거함 및 폐기물 수거대
+                정보 지도를 API로 매핑하여 편의성을 연계시킬 예정입니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- [12장] 결론 -->
+      <section class="slide w-full flex-col justify-center items-center text-center space-y-8" data-slide-index="12">
+        <div
+          class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-sm font-semibold tracking-wide">
+          🌱 어따버려 프로젝트 결론
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight leading-tight max-w-5xl text-slate-900">
+          버리는 작은 행동의 변화가 만드는<br><span class="text-emerald-600 font-black">깨끗하고 기분 좋은 우리의 환경</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl text-left pt-4">
+          <div class="p-6 bg-white border-2 border-slate-200 rounded-2xl space-y-2 shadow-sm">
+            <div class="font-black text-lg text-slate-900">환경적 기대 효과</div>
+            <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">애매함 때문에 일반 쓰레기로 버려져 소각 및 낭비되는 재자원
+              소모를 방지하여 실질적 재활용률 향상에 이바지합니다.</p>
+          </div>
+          <div class="p-6 bg-white border-2 border-slate-200 rounded-2xl space-y-2 shadow-sm">
+            <div class="font-black text-lg text-slate-900">어따버려의 본질적 가치</div>
+            <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">귀찮고 복잡하게만 다가오던 쓰레기 버리는 과정을 쉽고
+              신속하게 바꾸어 올바른 분리수거를 습관화하도록 돕습니다.</p>
+          </div>
+        </div>
+        <p class="text-emerald-700 font-black text-lg tracking-widest pt-4 animate-pulse">
+          "어따버려와 함께, 일상의 작은 손동작부터 올바른 자원 순환을 시작합니다."
+        </p>
+      </section>
+
+    </main>
+
+
+  </div>
+
+  <!-- FOOTER: Slide Numbers & Controller -->
+  <footer class="w-full px-8 py-4 bg-white border-t-2 border-slate-200 flex justify-between items-center z-10 shrink-0">
+    <!-- Navigation Buttons -->
+    <div class="flex items-center gap-3">
+      <button id="btn-prev"
+        class="h-10 w-10 rounded-xl bg-slate-50 hover:bg-slate-100 active:bg-slate-200 border border-slate-350 flex items-center justify-center text-slate-700 hover:text-slate-900 transition shadow-sm">
+        <i class="fa-solid fa-chevron-left text-sm"></i>
+      </button>
+      <div class="text-base font-black text-slate-600 px-3 min-w-[60px] text-center">
+        <span id="current-slide-num" class="text-emerald-700 font-extrabold">1</span> / <span id="total-slides-num"
+          class="font-bold">12</span>
+      </div>
+      <button id="btn-next"
+        class="h-10 w-10 rounded-xl bg-slate-50 hover:bg-slate-100 active:bg-slate-200 border border-slate-350 flex items-center justify-center text-slate-700 hover:text-slate-900 transition shadow-sm">
+        <i class="fa-solid fa-chevron-right text-sm"></i>
+      </button>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="hidden md:block flex-1 max-w-xl mx-8">
+      <div class="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
+        <div id="progress-bar-fill" class="h-full bg-emerald-600 rounded-full transition-all duration-300"
+          style="width: 8.33%;"></div>
+      </div>
+    </div>
+
+    <!-- Extra actions -->
+    <!-- Empty placeholder to balance layout -->
+    <div class="w-10 h-10"></div>
+  </footer>
+
+  <!-- JAVASCRIPT FOR NAVIGATION AND NOTES -->
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const totalSlides = slides.length;
+    let currentSlideIndex = 0; // 0-based index
+
+    const currentSlideNumEl = document.getElementById('current-slide-num');
+    const totalSlidesNumEl = document.getElementById('total-slides-num');
+    const progressBarFillEl = document.getElementById('progress-bar-fill');
+
+    // Initialize UI
+    totalSlidesNumEl.textContent = String(totalSlides);
+
+    function updatePresentation() {
+      // Deactivate all slides
+      slides.forEach(slide => {
+        slide.classList.remove('active');
+      });
+
+      // Activate current slide
+      const activeSlide = slides[currentSlideIndex];
+      activeSlide.classList.add('active');
+
+      // Update counters
+      const slideNum = currentSlideIndex + 1;
+      currentSlideNumEl.textContent = String(slideNum);
+
+      // Update Progress Bar
+      const percentage = (slideNum / totalSlides) * 100;
+      progressBarFillEl.style.width = `${percentage}%`;
+    }
+
+    function navigateNext() {
+      if (currentSlideIndex < totalSlides - 1) {
+        currentSlideIndex++;
+        updatePresentation();
+      }
+    }
+
+    function navigatePrev() {
+      if (currentSlideIndex > 0) {
+        currentSlideIndex--;
+        updatePresentation();
+      }
+    }
+
+    // Event Listeners
+    document.getElementById('btn-next').addEventListener('click', navigateNext);
+    document.getElementById('btn-prev').addEventListener('click', navigatePrev);
+
+    // Keyboard Navigation
+    window.addEventListener('keydown', (event) => {
+      if (event.code === 'ArrowRight' || event.code === 'Space') {
+        event.preventDefault();
+        navigateNext();
+      } else if (event.code === 'ArrowLeft') {
+        event.preventDefault();
+        navigatePrev();
+      }
+    });
+
+    // Setup initial presentation state
+    updatePresentation();
+  </script>
+</body>
+
+</html>
